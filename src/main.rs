@@ -17,20 +17,20 @@ fn main() {
     loop {
         if active == false {
             println!("enter your name");
-            let mut name1 = String::new();
-            io::stdin().read_line(&mut name1).expect("failed 1");
-            let name1 = name1.trim().to_string();
+            let mut name = String::new();
+            io::stdin().read_line(&mut name).expect("failed 1");
+            let name1 = name.trim().to_string();
 
             println!("enter your token id");
-            let mut token1 = String::new();
-            io::stdin().read_line(&mut token1).expect("failed 2");
-            let token1: u32 = token1.trim().parse().expect("please a number");
+            let mut TokenId = String::new();
+            io::stdin().read_line(&mut TokenId).expect("failed 2");
+            let TokenId: u32 = TokenId.trim().parse().expect("please enter a number");
 
-            let user1 = User {
-                name: name1,
-                TokenId: token1,
+            let user = User {
+                name,
+                TokenId,
             };
-            user_vec.push(user1);
+            user_vec.push(user);
 
             println! {"do you want to ad more users in lottery system"};
             let mut a = String::new();
@@ -51,7 +51,7 @@ fn main() {
             println!("enter the index you want to view the data for");
             let mut b = String::new();
             io::stdin().read_line(&mut b).expect("failed 4");
-            let b: usize = b.trim().parse().expect("please enter true or false 2");
+            let b: usize = b.trim().parse().expect("please enter only number");
 
             if let Some(user) = user_vec.get(b) {
                 println!("User details: {:?}", user);
@@ -70,22 +70,24 @@ fn main() {
             }
         }
     }
-    let mut num = 0;
-    for i in 0..(user_vec.len()) {
-        if let Some(user) = user_vec.get(i) {
-            if user.TokenId > 0 {
-                num += 1;
-            }
-        }
-    }
+    let mut num = user_vec.len();
+    println!("num = {}", num);
+    // for i in 0..(user_vec.len()) {
+    //     if let Some(user) = user_vec.get(i) {
+    //         if user.TokenId > 0 {
+    //             num += 1;
+    //         }
+    //     }
+    // }
     let secretNumber = rand::thread_rng().gen_range(0..num);
-    println!("Lottery number is : {:?}", secretNumber);
+    println!("Lottery index is : {:?}", secretNumber);
 
     if let Some(user) = user_vec.get(secretNumber) {
         let a = &user.name;
+        let b = &user.TokenId;
         println!(
-            "congratulations the winner index is {} and User's name is {}",
-            secretNumber, a
+            "congratulations the winner index is {} and User's name is {} and Token Id is {}",
+            secretNumber, a, b
         );
     }
 }
